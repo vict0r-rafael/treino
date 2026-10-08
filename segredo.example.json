@@ -1,0 +1,31 @@
+{
+  "_leia": "Copie para segredo.json e preencha. segredo.json esta no .gitignore e NUNCA deve ser commitado. Depois rode: node tools/encrypt.mjs",
+
+  "chaves": {
+    "A_data": "RESPOSTA DA SERIE 1 (8+ caracteres ou uma frase curta)",
+    "B_hora": "RESPOSTA DA SERIE 2 (8+ caracteres ou uma frase curta)",
+    "C_preparo": "RESPOSTA DA SERIE 3 — deixe vazio para publicar com a serie 3 bloqueada"
+  },
+
+  "dicas": {
+    "A": ["primeira dica da serie 1", "segunda dica da serie 1"],
+    "B": ["primeira dica da serie 2", "segunda dica da serie 2"],
+    "C": ["primeira dica da serie 3", "segunda dica da serie 3"]
+  },
+
+  "estopim": {
+    "linha1": "Te espero... mas você ainda não sabe quando.",
+    "linha2": "O treino de hoje ainda não acabou."
+  },
+
+  "revelacao": {
+    "nome": "NOME DELA",
+    "data_iso": "AAAA-MM-DD",
+    "hora_busca": "HH:MM",
+    "preparo": "o que vestir e levar",
+    "mensagem_final": "mensagem enigmatica"
+  },
+
+  "whatsapp": "55DDDNUMERO",
+  "url_curta": ""
+}

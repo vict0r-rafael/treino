@@ -298,3 +298,254 @@ body {
     animation: surgir 600ms ease both !important;
   }
 }
+
+/* ==========================================================================
+   treino.html — a ficha, em terminal
+   ========================================================================== */
+
+body.terminal {
+  background: var(--terminal-bg);
+  color: var(--terminal-ink);
+  font-family: var(--fonte-mono);
+  justify-content: flex-start;
+  padding: clamp(1rem, 5vw, 3rem) var(--gap);
+}
+
+.ficha {
+  width: 100%;
+  max-width: 44rem;
+  margin: auto;
+  font-size: clamp(0.85rem, 2.4vw, 1rem);
+  line-height: 1.7;
+}
+
+.ficha[hidden],
+.so-no-pc[hidden] {
+  display: none;
+}
+
+.ficha-titulo {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.regua {
+  margin: 0.8rem 0;
+  border: none;
+  border-top: 1px dashed rgba(255, 214, 232, 0.35);
+}
+
+/* --- séries --------------------------------------------------------------- */
+
+.series {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.serie {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+}
+
+.serie-num {
+  white-space: nowrap;
+}
+
+.serie-rotulo {
+  min-width: 5ch;
+  color: var(--rosa-forte);
+  font-weight: 700;
+}
+
+.serie-campo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.serie-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid rgba(255, 214, 232, 0.35);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--terminal-ink);
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.serie-input::placeholder {
+  color: rgba(255, 214, 232, 0.3);
+}
+
+.serie-input:focus-visible {
+  outline: 2px solid var(--rosa-forte);
+  outline-offset: 1px;
+}
+
+.serie-ok {
+  padding: 0.45rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--rosa-forte);
+  color: #fff;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.serie-ok[disabled] {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.serie-valor {
+  color: var(--terminal-verde);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.serie-estado {
+  font-size: 1.1em;
+}
+
+.serie-erro,
+.serie-dica,
+.serie-nota {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-left: 1ch;
+  font-size: 0.9em;
+}
+
+.serie-erro {
+  color: #ff8aa8;
+}
+
+.serie-dica {
+  color: var(--terminal-verde);
+  border-left: 2px solid var(--terminal-verde);
+}
+
+.serie-nota {
+  color: rgba(255, 214, 232, 0.55);
+}
+
+.serie-erro[hidden],
+.serie-dica[hidden],
+.serie-nota[hidden] {
+  display: none;
+}
+
+/* animação do cadeado abrindo + ✔ de série concluída */
+.serie.concluida .serie-estado {
+  animation: destravar 650ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes destravar {
+  0% { transform: scale(1) rotate(0); }
+  35% { transform: scale(1.5) rotate(-18deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* --- rodapé: o personal --------------------------------------------------- */
+
+.rodape {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.9em;
+  color: rgba(255, 214, 232, 0.65);
+}
+
+.botao-terminal {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid rgba(255, 214, 232, 0.4);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--terminal-ink);
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.botao-terminal:hover:not([disabled]),
+.botao-terminal:focus-visible:not([disabled]) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.botao-terminal[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.botao-desisto {
+  border-color: var(--rosa-forte);
+  color: var(--rosa-forte);
+}
+
+/* --- bloco revelado ------------------------------------------------------- */
+
+.revelado {
+  margin-top: 1.4rem;
+  padding: 1rem 1.1rem;
+  border: 1px dashed var(--terminal-verde);
+  border-radius: var(--raio);
+  color: var(--terminal-verde);
+  animation: surgir 700ms ease both;
+}
+
+.revelado[hidden] {
+  display: none;
+}
+
+.revelado p {
+  margin: 0 0 0.4rem;
+}
+
+.revelado p:last-child {
+  margin-bottom: 0;
+}
+
+/* --- aviso de celular ------------------------------------------------------ */
+
+.so-no-pc {
+  max-width: 30rem;
+  margin: auto;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.so-no-pc .url {
+  display: block;
+  margin-top: 1rem;
+  padding: 0.7rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--terminal-verde);
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+@media (max-width: 34rem) {
+  .serie {
+    grid-template-columns: auto 1fr auto;
+  }
+  .serie-num {
+    grid-column: 1 / -1;
+  }
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ficha de treino</title>
+    <meta name="description" content="sua ficha. três séries." />
+    <meta name="theme-color" content="#2b1620" />
+    <meta name="robots" content="noindex" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%92%AA</text></svg>"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="terminal">
+    <!-- AQUECIMENTO:INICIO (gerado por tools/encrypt.mjs) -->
+    <!-- aquecimento
+
+         ___                                    ___
+        |[_]|====================================|[_]|
+         ‾‾‾                                      ‾‾‾
+
+        serie 1 . DATA
+        carga:  ZGlhIGRlIHBlcm5h
+
+        proxima: o console tem a serie 2.
+    -->
+    <!-- AQUECIMENTO:FIM -->
+
+    <main class="ficha" id="ficha" hidden>
+      <h1 class="ficha-titulo">
+        Ficha de treino — <span id="nome">você</span>
+      </h1>
+
+      <hr class="regua" />
+
+      <ol class="series" id="series">
+        <li class="serie" data-serie="A">
+          <span class="serie-num">Série 1</span>
+          <span class="serie-rotulo">DATA</span>
+          <div class="serie-campo">
+            <input
+              class="serie-input"
+              type="text"
+              placeholder="________"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              aria-label="resposta da série 1"
+            />
+            <button class="serie-ok" type="button">⏎</button>
+          </div>
+          <span class="serie-estado" aria-hidden="true">🔒</span>
+          <p class="serie-erro" hidden></p>
+          <p class="serie-dica" hidden></p>
+          <p class="serie-nota" hidden></p>
+        </li>
+
+        <li class="serie" data-serie="B">
+          <span class="serie-num">Série 2</span>
+          <span class="serie-rotulo">HORA</span>
+          <div class="serie-campo">
+            <input
+              class="serie-input"
+              type="text"
+              placeholder="________"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              aria-label="resposta da série 2"
+            />
+            <button class="serie-ok" type="button">⏎</button>
+          </div>
+          <span class="serie-estado" aria-hidden="true">🔒</span>
+          <p class="serie-erro" hidden></p>
+          <p class="serie-dica" hidden></p>
+          <p class="serie-nota" hidden></p>
+        </li>
+
+        <li class="serie" data-serie="C">
+          <span class="serie-num">Série 3</span>
+          <span class="serie-rotulo">???</span>
+          <div class="serie-campo">
+            <input
+              class="serie-input"
+              type="text"
+              placeholder="________"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              aria-label="resposta da série 3"
+            />
+            <button class="serie-ok" type="button">⏎</button>
+          </div>
+          <span class="serie-estado" aria-hidden="true">🔒</span>
+          <p class="serie-erro" hidden></p>
+          <p class="serie-dica" hidden></p>
+          <p class="serie-nota" hidden></p>
+        </li>
+      </ol>
+
+      <hr class="regua" />
+
+      <div class="rodape">
+        <span id="descanso">descanso entre dicas: 2 min</span>
+        <span>
+          <button class="botao-terminal" id="personal" type="button">
+            chamar o personal
+          </button>
+          <button
+            class="botao-terminal botao-desisto"
+            id="desisto"
+            type="button"
+            hidden
+          >
+            desisto 🙃
+          </button>
+        </span>
+      </div>
+
+      <section class="revelado" id="revelado" hidden></section>
+    </main>
+
+    <section class="so-no-pc" id="soNoPc" hidden>
+      <p>
+        Essa ficha é no computador 💻.<br />
+        Abre lá que eu te espero:
+      </p>
+      <span class="url" id="urlPc"></span>
+    </section>
+
+    <script src="js/payload.js"></script>
+    <script src="js/treino.js"></script>
+  </body>
+</html>
