@@ -1,0 +1,161 @@
+/* ==========================================================================
+   treino — folha única para todas as páginas
+   ========================================================================== */
+
+:root {
+  /* paleta */
+  --rosa: #f8c8dc;
+  --rosa-claro: #fde8f0;
+  --rosa-forte: #ff1493;
+  --rosa-forte-hover: #d9117c;
+  --terracota: #a8441a;
+  --branco: #faf9f6;
+
+  /* tipografia */
+  --fonte: "Nunito", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fonte-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo,
+    Consolas, "Liberation Mono", monospace;
+
+  /* escala fluida: funciona de 320px até desktop sem media query */
+  --t-titulo: clamp(2rem, 9vw, 3.25rem);
+  --t-texto: clamp(1.05rem, 4vw, 1.5rem);
+
+  /* ritmo */
+  --gap: clamp(0.75rem, 3vw, 1.25rem);
+  --raio: 12px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--gap);
+  background-color: var(--rosa);
+  font-family: var(--fonte);
+  color: var(--terracota);
+  /* o botão "Não" é reposicionado para position: fixed; isso evita que
+     ele crie barra de rolagem horizontal ao chegar perto da borda */
+  overflow-x: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap);
+  width: 100%;
+  max-width: 34rem;
+  text-align: center;
+}
+
+.header_text {
+  margin: 0;
+  font-size: var(--t-titulo);
+  font-weight: 800;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.text {
+  margin: 0;
+  font-size: var(--t-texto);
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+/* --- mídia ---------------------------------------------------------------- */
+
+.gif_container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.gif_container > video,
+.gif_container > img {
+  display: block;
+  width: min(300px, 70vw);
+  height: auto;
+  border-radius: var(--raio);
+}
+
+/* --- botões -------------------------------------------------------------- */
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap);
+  width: 100%;
+}
+
+.btn {
+  padding: 0.9rem 2rem;
+  border: none;
+  border-radius: var(--raio);
+  background-color: var(--rosa-forte);
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  background-color: var(--rosa-forte-hover);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--terracota);
+  outline-offset: 3px;
+}
+
+/* O slot guarda o espaço do botão "Não" depois que ele sai do fluxo,
+   para a linha de botões não dar um salto quando ele foge. */
+.no-slot {
+  display: inline-flex;
+}
+
+#noButton.fugindo {
+  position: fixed;
+  margin: 0;
+  transition: left 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    top 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 10;
+}
+
+/* --- acessibilidade ------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

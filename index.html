@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>treino</title>
+    <meta name="description" content="bora treinar?" />
+    <meta name="theme-color" content="#f8c8dc" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%92%AA</text></svg>"
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="treino" />
+    <meta property="og:description" content="bora treinar?" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1 class="header_text">Quer sair comigo?</h1>
+
+      <div class="gif_container">
+        <video
+          src="assets/please.mp4"
+          poster="assets/please-poster.webp"
+          width="480"
+          height="480"
+          autoplay
+          muted
+          loop
+          playsinline
+          disablepictureinpicture
+          aria-label="Ilustração animada fofa"
+        >
+          <source src="assets/please.webm" type="video/webm" />
+          <source src="assets/please.mp4" type="video/mp4" />
+          <img src="assets/please-poster.webp" alt="Ilustração fofa" />
+        </video>
+      </div>
+
+      <div class="buttons">
+        <button class="btn" id="yesButton" type="button">Simm</button>
+        <span class="no-slot">
+          <button class="btn" id="noButton" type="button">Não?</button>
+        </span>
+      </div>
+    </main>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+# conteúdo real — nunca versionar
+segredo.json
+PLANO.md
+
+# fontes pesadas dos vídeos (reconverter com tools/README)
+assets/please.gif
+assets/happy.gif
+
+node_modules/
+.DS_Store
+Thumbs.db
+.claude/
