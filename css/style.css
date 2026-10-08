@@ -159,3 +159,142 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================================
+   estopim (yes.html) — o "ainda não acabou"
+   ========================================================================== */
+
+:root {
+  --terminal-bg: #2b1620;
+  --terminal-ink: #ffd6e8;
+  --terminal-verde: #7ef0b2;
+}
+
+#final.glitch {
+  position: relative;
+  animation: tremor 90ms steps(2, end) infinite;
+  text-shadow: 2px 0 rgba(255, 20, 147, 0.85), -2px 0 rgba(0, 220, 255, 0.85);
+}
+
+@keyframes tremor {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.estopim {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap);
+  width: 100%;
+}
+
+.estopim[hidden] {
+  display: none;
+}
+
+.estopim-linha {
+  margin: 0;
+  min-height: 1.4em;
+  font-size: var(--t-texto);
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+/* cursor de digitação, colado no fim da linha que está sendo escrita */
+.estopim-linha.digitando::after {
+  content: "▌";
+  animation: piscar 1s steps(1, end) infinite;
+}
+
+@keyframes piscar {
+  50% { opacity: 0; }
+}
+
+/* --- prompt de terminal --------------------------------------------------- */
+
+.prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+  max-width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.85rem 1.1rem;
+  border: none;
+  border-radius: var(--raio);
+  background: var(--terminal-bg);
+  color: var(--terminal-ink);
+  font-family: var(--fonte-mono);
+  font-size: clamp(0.85rem, 3.2vw, 1.05rem);
+  font-weight: 400;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.2s ease;
+}
+
+.prompt.visivel {
+  opacity: 1;
+}
+
+.prompt:hover,
+.prompt:focus-visible {
+  transform: translateY(-2px);
+}
+
+.prompt:focus-visible {
+  outline: 3px solid var(--terminal-bg);
+  outline-offset: 3px;
+}
+
+.prompt .cursor {
+  color: var(--terminal-verde);
+  animation: piscar 1s steps(1, end) infinite;
+}
+
+/* variante de tela touch/estreita: não há link, só a instrução e a URL */
+.prompt--mobile {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  cursor: default;
+}
+
+.prompt--mobile .url {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--terminal-verde);
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+@keyframes surgir {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #final.glitch {
+    animation: none;
+    text-shadow: none;
+  }
+  .estopim-linha.digitando::after,
+  .prompt .cursor {
+    animation: none;
+  }
+  /* sem glitch e sem digitação: o texto só aparece com um fade.
+     Vence a regra geral de 0.01ms porque a especificidade de classe
+     é maior que a do seletor universal. */
+  .estopim-linha,
+  .prompt {
+    animation: surgir 600ms ease both !important;
+  }
+}
