@@ -126,9 +126,10 @@
         }
       });
     }
-    requestAnimationFrame(function () {
-      prompt.classList.add("visivel");
-    });
+    // Sem requestAnimationFrame: ele não dispara em aba em segundo plano, e
+    // o prompt ficaria invisível até ela voltar para a aba. O opacity: 0
+    // inicial vem do CSS desde o carregamento, então a transição já funciona.
+    prompt.classList.add("visivel");
   }
 
   /* --- sequência ---------------------------------------------------------- */
