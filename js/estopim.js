@@ -22,9 +22,10 @@
   if (!final || !bloco || !el1 || !el2 || !prompt) return;
 
   var calmo = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // tela touch ou estreita: a ficha é impossível de resolver no celular
-  var noCelular =
-    window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 820;
+  // Só bloqueia por tipo de ponteiro, nunca por largura: uma janela estreita
+  // num notebook é um computador, e mandar "abre no computador" para quem já
+  // está nele é o pior jeito de travar o desafio.
+  var noCelular = window.matchMedia("(pointer: coarse)").matches;
 
   /* --- localStorage sempre em try/catch: modo privado derruba o acesso ----- */
 

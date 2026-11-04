@@ -604,8 +604,10 @@
     var ficha = document.getElementById("ficha");
     var aviso = document.getElementById("soNoPc");
 
-    var noCelular =
-      window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 820;
+    // Só bloqueia por tipo de ponteiro, nunca por largura: uma janela estreita
+    // num notebook é um computador, e mandar "abre no computador" para quem já
+    // está nele é o pior jeito de travar o desafio. A ficha é responsiva.
+    var noCelular = window.matchMedia("(pointer: coarse)").matches;
 
     if (noCelular) {
       document.getElementById("urlPc").textContent =
