@@ -549,3 +549,18 @@ body.terminal {
     grid-column: 1 / -1;
   }
 }
+
+/* --- série 3: confete e calendário ---------------------------------------- */
+
+.confete {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.botao-calendario {
+  margin-top: 0.8rem;
+  border-color: var(--terminal-verde);
+  color: var(--terminal-verde);
+}

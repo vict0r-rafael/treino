@@ -1,0 +1,30 @@
+/* FICHA */
+
+  Montagem      o personal
+  Periodizacao  tres series
+  Local         aqui mesmo
+
+/* CIRCUITO DE FECHAMENTO */
+
+  A serie 3 nao abre com carga escrita em lugar nenhum.
+  Ela abre com execucao. O circuito e este, nesta ordem,
+  sem descanso entre os movimentos:
+
+    2x  elevacao
+    2x  agachamento
+        avanco esquerdo
+        avanco direito
+        avanco esquerdo
+        avanco direito
+        B
+        A
+
+  Execute no teclado, com a ficha aberta.
+
+/* OBSERVACOES */
+
+  Aquecimento   no codigo-fonte
+  Serie 2       no console
+  Serie 3       aqui
+
+  Se travar, chame o personal. Ele cobra descanso entre as dicas.

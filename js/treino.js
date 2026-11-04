@@ -156,6 +156,11 @@
     if (concluida(id)) {
       el.classList.add("concluida");
       estado.textContent = "✔";
+      // a linha do circuito já cumpriu o papel; some junto com o cadeado
+      var dica = el.querySelector(".serie-dica");
+      if (dica) dica.hidden = true;
+      // o "???" da série 3 finalmente tem nome
+      if (id === "C") el.querySelector(".serie-rotulo").textContent = "PREPARO";
       campo.innerHTML = "";
       var v = document.createElement("span");
       v.className = "serie-valor";
@@ -212,9 +217,14 @@
     if (concluida("C")) {
       linhasEm(caixa, [
         progresso.C.mensagem_final,
-        "Leva: " + progresso.C.preparo,
         "Local: surpresa. Eu te busco.",
       ]);
+      var botao = document.createElement("button");
+      botao.type = "button";
+      botao.className = "botao-terminal botao-calendario";
+      botao.textContent = "adicionar ao calendário";
+      botao.addEventListener("click", baixarIcs);
+      caixa.appendChild(botao);
       return;
     }
 
@@ -257,6 +267,7 @@
         progresso[id] = conteudo;
         gravar(K_PROGRESSO, progresso);
         pintarTudo();
+        if (id === "C") confete();
       })
       .catch(function () {
         botao.disabled = false;
@@ -401,6 +412,192 @@
     };
   }
 
+  /* --- série 3: o circuito do humans.txt ------------------------------------ */
+
+  var CIRCUITO = [
+    "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
+    "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight",
+    "b", "a",
+  ];
+
+  function montarCircuito() {
+    // só arma quando a série 3 existe — sem carga publicada não há o que revelar
+    if (!temSerie("C") || !P.eco3) return;
+
+    var passo = 0;
+
+    document.addEventListener("keydown", function (e) {
+      var tecla = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+
+      if (tecla !== CIRCUITO[passo]) {
+        // recomeça, mas sem perder um acerto que já serve de primeiro passo
+        passo = tecla === CIRCUITO[0] ? 1 : 0;
+        return;
+      }
+
+      passo++;
+      if (passo < CIRCUITO.length) return;
+      passo = 0;
+
+      if (concluida("C")) return;
+
+      var el = elementos.C;
+      var caixa = el.querySelector(".serie-dica");
+      caixa.textContent = "circuito completo. carga liberada: " + atob(P.eco3);
+      caixa.hidden = false;
+      el.querySelector(".serie-input").focus();
+    });
+  }
+
+  /* --- .ics ------------------------------------------------------------------ */
+
+  // America/Cuiaba é UTC-4 o ano inteiro (sem horário de verão desde 2019),
+  // então converto para UTC somando 4h em vez de embutir uma VTIMEZONE.
+  var FUSO_HORAS = 4;
+  var DURACAO_HORAS = 3;
+
+  function carimbo(d) {
+    function dd(n) {
+      return String(n).padStart(2, "0");
+    }
+    return (
+      d.getUTCFullYear() +
+      dd(d.getUTCMonth() + 1) +
+      dd(d.getUTCDate()) +
+      "T" +
+      dd(d.getUTCHours()) +
+      dd(d.getUTCMinutes()) +
+      "00Z"
+    );
+  }
+
+  function escaparIcs(txt) {
+    return String(txt)
+      .replace(/\\/g, "\\\\")
+      .replace(/;/g, "\\;")
+      .replace(/,/g, "\\,")
+      .replace(/\r?\n/g, "\\n");
+  }
+
+  function dobrar(linha) {
+    // RFC 5545: linhas com no máximo 75 octetos, continuação com espaço
+    var saida = [];
+    while (linha.length > 73) {
+      saida.push(linha.slice(0, 73));
+      linha = " " + linha.slice(73);
+    }
+    saida.push(linha);
+    return saida.join("\r\n");
+  }
+
+  function montarIcs() {
+    var p = progresso.A.data_iso.split("-");
+    var h = progresso.B.hora_busca.split(":");
+    var inicio = new Date(
+      Date.UTC(+p[0], +p[1] - 1, +p[2], +h[0] + FUSO_HORAS, +h[1])
+    );
+    var fim = new Date(inicio.getTime() + DURACAO_HORAS * 3600000);
+
+    return [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//treino//ficha//PT-BR",
+      "CALSCALE:GREGORIAN",
+      "BEGIN:VEVENT",
+      "UID:" + Date.now() + "@treino",
+      "DTSTAMP:" + carimbo(new Date()),
+      "DTSTART:" + carimbo(inicio),
+      "DTEND:" + carimbo(fim),
+      dobrar("SUMMARY:Encontro 🔒"),
+      "LOCATION:Surpresa",
+      dobrar("DESCRIPTION:" + escaparIcs(progresso.C.preparo)),
+      "END:VEVENT",
+      "END:VCALENDAR",
+      "",
+    ].join("\r\n");
+  }
+
+  function baixarIcs() {
+    var blob = new Blob([montarIcs()], {
+      type: "text/calendar;charset=utf-8",
+    });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "encontro.ics";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () {
+      URL.revokeObjectURL(url);
+    }, 1000);
+  }
+
+  /* --- confete ---------------------------------------------------------------- */
+
+  function confete() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var tela = document.createElement("canvas");
+    tela.className = "confete";
+    document.body.appendChild(tela);
+    var ctx = tela.getContext("2d");
+
+    function medir() {
+      tela.width = window.innerWidth;
+      tela.height = window.innerHeight;
+    }
+    medir();
+    window.addEventListener("resize", medir);
+
+    var cores = ["#ff1493", "#7ef0b2", "#ffd6e8", "#f8c8dc"];
+    var pedacos = [];
+    for (var i = 0; i < 140; i++) {
+      pedacos.push({
+        x: Math.random() * tela.width,
+        y: -20 - Math.random() * tela.height * 0.5,
+        l: 5 + Math.random() * 7,
+        vy: 1.6 + Math.random() * 2.6,
+        vx: -1 + Math.random() * 2,
+        giro: Math.random() * Math.PI,
+        dgiro: -0.12 + Math.random() * 0.24,
+        cor: cores[Math.floor(Math.random() * cores.length)],
+      });
+    }
+
+    var fim = Date.now() + 4500;
+
+    function quadro() {
+      ctx.clearRect(0, 0, tela.width, tela.height);
+      var restante = fim - Date.now();
+      ctx.globalAlpha = Math.max(0, Math.min(1, restante / 1200));
+
+      pedacos.forEach(function (c) {
+        c.x += c.vx;
+        c.y += c.vy;
+        c.giro += c.dgiro;
+        if (c.y > tela.height + 20) {
+          c.y = -20;
+          c.x = Math.random() * tela.width;
+        }
+        ctx.save();
+        ctx.translate(c.x, c.y);
+        ctx.rotate(c.giro);
+        ctx.fillStyle = c.cor;
+        ctx.fillRect(-c.l / 2, -c.l / 2, c.l, c.l * 0.6);
+        ctx.restore();
+      });
+
+      if (restante > 0) {
+        requestAnimationFrame(quadro);
+      } else {
+        window.removeEventListener("resize", medir);
+        tela.remove();
+      }
+    }
+    requestAnimationFrame(quadro);
+  }
+
   /* --- partida -------------------------------------------------------------- */
 
   function comecar() {
@@ -435,6 +632,7 @@
     document.getElementById("personal").addEventListener("click", chamarPersonal);
 
     montarConsole();
+    montarCircuito();
     pintarTudo();
 
     // relógio do descanso

@@ -158,6 +158,14 @@ const ecoB = Buffer.from(s.chaves.B_hora, "utf8")
   .replace(/../g, "$& ")
   .trim();
 
+// Série 3: o enigma é descobrir o circuito do humans.txt e executá-lo no
+// teclado, não decodificar de novo. O Base64 aqui é só para a resposta não
+// aparecer legível para quem rolar o payload sem jogar — mesmo contrato da
+// série 1, cuja carga também está em Base64 no código-fonte.
+const ecoC = temC
+  ? Buffer.from(s.chaves.C_preparo, "utf8").toString("base64")
+  : null;
+
 const payload = {
   v: 1,
   iteracoes: ITERACOES,
@@ -166,6 +174,7 @@ const payload = {
     url_curta: s.url_curta || "",
   },
   eco: ecoB,
+  eco3: ecoC,
   series,
   apoio,
 };

@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /vestiario
+Disallow: /chuveiro
+
+# O vestiario esta em obras desde 2019 e o chuveiro so sai frio.
+# Se voce e um robo, pode treinar no resto a vontade.
