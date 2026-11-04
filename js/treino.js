@@ -445,7 +445,12 @@
       var caixa = el.querySelector(".serie-dica");
       caixa.textContent = "circuito completo. carga liberada: " + atob(P.eco3);
       caixa.hidden = false;
-      el.querySelector(".serie-input").focus();
+
+      // Se o foco estava no campo, o "b" e o "a" do circuito foram digitados
+      // nele. Limpa antes de devolver o foco, senão a resposta gruda no lixo.
+      var campo = el.querySelector(".serie-input");
+      campo.value = "";
+      campo.focus();
     });
   }
 
