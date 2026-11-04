@@ -230,6 +230,34 @@ writeFileSync(
   "utf8"
 );
 
+/* --- carimbo de versão nos css/js ------------------------------------------
+ * O GitHub Pages serve com max-age=600. Sem isso, quem visitou nos últimos
+ * 10 minutos continuaria com o payload antigo — e, no dia em que a série 3
+ * é liberada, veria a ficha trancada sem entender por quê. O ?v=<hash> muda
+ * junto com o arquivo, então o navegador é obrigado a buscar a versão nova.
+ * -------------------------------------------------------------------------- */
+
+import { createHash } from "node:crypto";
+
+const hashDe = (rel) =>
+  createHash("sha256")
+    .update(readFileSync(join(RAIZ, rel)))
+    .digest("hex")
+    .slice(0, 8);
+
+for (const pagina of ["index.html", "yes.html", "treino.html", "404.html"]) {
+  const caminho = join(RAIZ, pagina);
+  if (!existsSync(caminho)) continue;
+
+  const antes = readFileSync(caminho, "utf8");
+  const depois = antes.replace(
+    /(href|src)="((?:css|js)\/[^"?]+)(?:\?v=[^"]*)?"/g,
+    (_, attr, rel) => `${attr}="${rel}?v=${hashDe(rel)}"`
+  );
+
+  if (depois !== antes) writeFileSync(caminho, depois, "utf8");
+}
+
 console.log(
   "\n  js/payload.js gerado.\n" +
     `   · série A: cifrada\n` +
